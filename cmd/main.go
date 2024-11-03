@@ -2,23 +2,19 @@ package main
 
 import (
 	"log"
-	"os"
+
+	"github.com/Prajna1999/hetzner-be/internal/app"
 )
 
 func main() {
-	// create a log file
-	f, err := os.OpenFile("app.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	application, err := app.NewApp()
 	if err != nil {
-		log.Fatalf("Error opening file: %v", err)
+		log.Fatalf("failed to inititalize application: %v", err)
+		return
 	}
-	defer f.Close()
-
-	// set log output to file and stdout
-	log.SetOutput(f)
-	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
-
-	log.Println("Starting application...")
-	log.Println("Initializing server...")
-	log.Println("Server started successfully")
+	if err := application.Run(); err != nil {
+		log.Fatalf("failed to run application %v", err)
+		return
+	}
 
 }
