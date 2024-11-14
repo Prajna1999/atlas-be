@@ -54,14 +54,16 @@ func (a *App) Run() error {
 }
 
 func (a *App) healthCheck(c *gin.Context) {
-	var response HealthCheckResponse
+	response := HealthCheckResponse{
+		Status:  "OK",
+		Message: "All Systems Narmal 🚀",
+	}
 	sqlDB, err := a.db.DB()
 
 	if err != nil {
-		response = HealthCheckResponse{
-			Status:  "Error",
-			Message: "Database Connection Error",
-		}
+
+		response.Status = "Error"
+		response.Message = "Database Connection Error"
 		c.JSON(http.StatusInternalServerError, response)
 		return
 	}
@@ -69,16 +71,10 @@ func (a *App) healthCheck(c *gin.Context) {
 	// ping the database
 	err = sqlDB.Ping()
 	if err != nil {
-		response = HealthCheckResponse{
-			Status:  "Error",
-			Message: "Database Ping Failed",
-		}
+		response.Status = "Error"
+		response.Message = "Database Ping Failed"
 		c.JSON(http.StatusInternalServerError, response)
 		return
-	}
-	response = HealthCheckResponse{
-		Status:  "OK",
-		Message: "All Sysetms Narmal 🚀",
 	}
 	c.JSON(http.StatusOK, response)
 }
