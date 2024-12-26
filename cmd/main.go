@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/Prajna1999/hetzner-be/internal/app"
+	"github.com/Prajna1999/atlas-be/internal/app"
 )
 
 func main() {
