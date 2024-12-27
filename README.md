@@ -3,13 +3,10 @@
 
 This is the first step towrads building an alternative cloud computing platform. It's supposed to be anti-AWS. This application would be built upon the thesis of considering cloud computing as a utility company akin to an electricity utility co. aims to provide reliable computing capacity at scale at a marginal cost to the consumers.
 
-
-Here’s a sample `README.md` tailored to the structure you provided: 
-
 ```markdown
 # Atlas Backend
 
-This is the backend for the Hetzner application, built with Go. The project follows a modular structure and is designed to be scalable, maintainable, and easy to extend.
+This is the backend for the Atlas application, built with Go. The project follows a modular structure and is designed to be scalable, maintainable, and easy to extend.
 
 ## Project Structure
 
