@@ -46,8 +46,8 @@ This is the backend for the Atlas application, built with Go. The project follow
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/prajna1999/hetzner-backend.git
-   cd hetzner-backend
+   git clone https://github.com/prajna1999/atlas-be.git
+   cd atlas-be
    ```
 
 2. Install dependencies:
