@@ -1,6 +1,4 @@
-Here's a consolidated RFC-style document integrating all aspects of your cloud exchange concept, presented in a structured format suitable for technical and non-technical stakeholders:
 
----
 
 # RFC: Cloud Computing Resource Exchange (CCRE)  
 **A Decentralized Marketplace for Cloud Infrastructure**  
@@ -84,7 +82,7 @@ Hybrid approach combining:
 ### 5.1 API Taxonomy  
 | Layer | Standard | Example |  
 |-------|----------|---------|  
-| Authentication | OAuth3.0 | Unified token |  
+| Authentication | OAuth2.0 | Unified token |  
 | Compute | CIMI Lite | Instance object |  
 | Storage | CDMI Lite | Bucket interface |  
 | Network | NaaS 1.0 | Virtual router |  
@@ -182,6 +180,3 @@ This RFC proposes a radical rethinking of cloud infrastructure markets through:
 **C. Regulatory Considerations**  
 **D. Security Audit Plan**  
 
---- 
-
-This document combines technical depth with strategic vision, providing a roadmap for implementing your cloud exchange concept while maintaining academic rigor and practical feasibility. Would you like me to expand any particular section or add specific implementation details?
