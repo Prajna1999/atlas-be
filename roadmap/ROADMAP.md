@@ -37,15 +37,22 @@ Current cloud market inefficiencies:
 
 ## 3. Architectural Overview  
 ```mermaid
-graph TD
-    A[Market Participants] --> B(Trading Engine)
-    B --> C{Clearing House}
-    C --> D[Cloud Providers]
-    C --> E[Consumers]
-    D <--> F[Standardized API Layer]
-    E <--> F
-    F <--> G[Risk System]
-    G <--> H[Blockchain Settlement]
+sequenceDiagram
+    participant User as Consumer
+    participant Exchange as Cloud Exchange
+    participant ProviderA as Hetzner
+    participant ProviderB as AWS
+    
+    User->>Exchange: Bid(100 vCPUs, $0.05/hr)
+    Exchange->>ProviderA: Price Query
+    Exchange->>ProviderB: Price Query
+    ProviderA-->>Exchange: Offer $0.06
+    ProviderB-->>Exchange: Offer $0.055
+    Exchange->>User: Match @ $0.055
+    User->>ProviderB: Deploy workload
+    ProviderB->>Exchange: Usage telemetry
+    Exchange->>User: Bill
+    Exchange->>ProviderB: Settle payment
 ```
 
 ---
