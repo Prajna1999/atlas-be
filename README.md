@@ -1,93 +1,188 @@
-# Project Atlas
-## Atlas backend service
 
-This is the first step towrads building an alternative cloud computing platform. It's supposed to be anti-AWS. This application would be built upon the thesis of considering cloud computing as a utility company akin to an electricity utility co. aims to provide reliable computing capacity at scale at a marginal cost to the consumers.
 
-```markdown
-# Atlas Backend
-
-This is the backend for the Atlas application, built with Go. The project follows a modular structure and is designed to be scalable, maintainable, and easy to extend.
-
-## Project Structure
-
-```plaintext
-.
-├── README.md
-├── cmd
-│   └── main.go               # Entry point of the application
-├── go.mod                    # Go module file
-├── go.sum                    # Dependency checksums
-└── internal
-    ├── app
-    │   └── app.go            # Application setup and configuration
-    ├── database
-    │   └── database.go       # Database connection and management
-    ├── models
-    │   ├── base.go           # Base model functionality
-    │   └── user.go           # User model
-    ├── repository            # Handles data access logic (currently empty)
-    ├── routes
-    │   └── routes.go         # API route definitions
-    └── service               # Business logic (currently empty)
-```
-
-## Features
-
-- **Modular Design**: Clean separation of concerns with `models`, `routes`, and `database` layers.
-- **Scalability**: Prepared for adding features like services, repositories, and middleware.
-- **Ease of Use**: Simplified setup for rapid development.
-
-## Prerequisites
-
-- **Go**: Version 1.19 or higher.
-- **Database**: Configure your database in `database/database.go`.
-
-## Setup and Run
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/prajna1999/atlas-be.git
-   cd atlas-be
-   ```
-
-2. Install dependencies:
-   ```bash
-   go mod tidy
-   ```
-
-3. Update database configuration:
-   Modify the database settings in `internal/database/database.go` to match your environment.
-
-4. Run the application:
-   ```bash
-   go run cmd/main.go
-   ```
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new feature branch: `git checkout -b feature-name`.
-3. Commit your changes: `git commit -m "Add feature-name"`.
-4. Push to the branch: `git push origin feature-name`.
-5. Open a pull request.
-
-## Future Improvements
-
-- Implement `repository` and `service` layers for better scalability.
-- Add authentication and authorization.
-- Integrate a logging system.
-- Enhance error handling.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+# RFC: Cloud Computing Resource Exchange (CCRE)  
+**A Decentralized Marketplace for Cloud Infrastructure**  
+**Authors**: Prajna Prayas  
+**Date**: 27 January 2025
 
 ---
 
-Happy coding!
+## 1. Abstract
+This document proposes a standardized exchange mechanism for cloud computing resources, drawing parallels to electricity markets while addressing unique computational constraints. The system combines:  
+- Commoditized IaaS abstraction layer  
+- Continuous double-auction market mechanism  
+- Cross-cloud API standardization  
+- Risk-managed settlement system  
+
+---
+
+## 2. Introduction  
+### 2.1 Historical Context  
+*"Computing may someday be organized as a public utility"* - John McCarthy (1961)  
+The vision of computing-as-utility has evolved through:  
+- Time-sharing systems (1960s)  
+- Grid computing (1990s)  
+- Cloud computing (2000s)  
+- Serverless architectures (2010s)  
+
+### 2.2 Modern Opportunity  
+Current cloud market inefficiencies:  
+| Issue | Current State | CCRE Solution |  
+|-------|---------------|---------------|  
+| Price Discovery | Opaque pricing | Transparent markets |  
+| Resource Mobility | Vendor lock-in | Standardized APIs |  
+| Utilization | Average 40% server utilization | Dynamic allocation |  
+
+---
+
+## 3. Architectural Overview  
+```mermaid
+sequenceDiagram
+    participant User as Consumer
+    participant Exchange as Cloud Exchange
+    participant ProviderA as Hetzner
+    participant ProviderB as AWS
+    
+    User->>Exchange: Bid(100 vCPUs, $0.05/hr)
+    Exchange->>ProviderA: Price Query
+    Exchange->>ProviderB: Price Query
+    ProviderA-->>Exchange: Offer $0.06
+    ProviderB-->>Exchange: Offer $0.055
+    Exchange->>User: Match @ $0.055
+    User->>ProviderB: Deploy workload
+    ProviderB->>Exchange: Usage telemetry
+    Exchange->>User: Bill
+    Exchange->>ProviderB: Settle payment
 ```
 
-You can adjust project details, like the Git repository URL and database setup, based on your actual configuration. Let me know if you'd like more help customizing it!
+---
 
+## 4. Market Mechanism Design  
+### 4.1 Auction Types  
+**Spot Market**:  
+- Continuous double auction  
+- 30-second price intervals  
+- Preemption allowed  
+
+**Forward Market**:  
+- Day-ahead commitment  
+- Financial transmission rights  
+
+### 4.2 Matching Algorithm  
+```mermaid
+flowchart LR
+    Order --> MatchingEngine
+    MatchingEngine --> |Price-Time Priority| OrderBook
+    OrderBook --> |FOK/IOC| TradeExecution
+    TradeExecution --> Settlement
+```
+
+### 4.3 Pricing Model  
+Hybrid approach combining:  
+- **VCG Mechanism** (Truthfulness)  
+- **Mid-Price Spread** (Liquidity)  
+- **ARIMA Forecasting** (Price signals)  
+
+---
+
+## 5. Cross-Cloud Standardization  
+### 5.1 API Taxonomy  
+| Layer | Standard | Example |  
+|-------|----------|---------|  
+| Authentication | OAuth2.0 | Unified token |  
+| Compute | CIMI Lite | Instance object |  
+| Storage | CDMI Lite | Bucket interface |  
+| Network | NaaS 1.0 | Virtual router |  
+
+### 5.2 Compatibility Matrix  
+| Feature | AWS | Hetzner | GCP |  
+|---------|-----|---------|-----|  
+| vCPU Unit | 1:1 | 1:0.95 | 1:1.1 |  
+| RAM Pricing | $0.05/GB | $0.04/GB | $0.055/GB |  
+| Storage SLA | 99.99% | 99.95% | 99.99% |  
+
+---
+
+## 6. Risk Management Framework  
+### 6.1 Key Components  
+- **Margin Calculator**:  
+  ```math 
+  Initial Margin = σ(Price) × √(HoldingPeriod) × Quantile(99%)
+  ```  
+- **Circuit Breakers**:  
+  ```python
+  if price_change > 15% in 5min:
+      halt_trading(300sec)
+  ```  
+- **SLA Insurance Pool**:  
+  Crowdfunded downtime protection  
+
+---
+
+## 7. Implementation Roadmap  
+**Phase 1 (Q1-Q2 2024)**:  
+- Core matching engine (Go)  
+- Hetzner/AWS adapters  
+- Basic spot market  
+
+**Phase 2 (Q3 2024)**:  
+- FaaS layer standardization  
+- Forward market contracts  
+- Cross-cloud migration  
+
+**Phase 3 (2025)**:  
+- AI-powered arbitrage bots  
+- Quantum-resistant settlement  
+- Edge computing integration  
+
+---
+
+## 8. Academic Foundations  
+### 8.1 Key Papers  
+1. **Market Design**:  
+   - "The Theory of Auctions" (Milgrom, 1981)  
+   - "Combinatorial Auctions" (Cramton, 2006)  
+
+2. **Cloud Economics**:  
+   - "A Market-Oriented Grid" (Buyya, 2002)  
+   - "Intercloud Architecture" (Bernstein, 2010)  
+
+3. **Risk Management**:  
+   - "Value at Risk" (Jorion, 1996)  
+   - "HFT Risk Controls" (Aldridge, 2013)  
+
+### 8.2 Historical Precedents  
+- California Power Exchange (1998-2001)  
+- AWS Spot Market (2009-Present)  
+- Alibaba Cloud Spot (2016-Present)  
+
+---
+
+## 9. Stakeholder Impact Analysis  
+| Group | Benefit | Risk |  
+|-------|---------|------|  
+| Cloud Providers | Increased utilization | Price competition |  
+| Enterprises | Cost optimization | Operational complexity |  
+| Regulators | Market transparency | Systemic risk |  
+| Developers | Portable workloads | Learning curve |  
+
+---
+
+## 10. Conclusion & Next Steps  
+This RFC proposes a radical rethinking of cloud infrastructure markets through:  
+1. Financial market-inspired trading mechanisms  
+2. Strong API standardization efforts  
+3. Hybrid centralized/decentralized governance  
+
+**Immediate Actions**:  
+1. Form technical steering committee  
+2. Develop MVP with Hetzner integration  
+3. Establish academic partnerships  
+
+---
+
+## Appendices  
+**A. Glossary**  
+**B. Reference Implementation**  
+**C. Regulatory Considerations**  
+**D. Security Audit Plan**  
